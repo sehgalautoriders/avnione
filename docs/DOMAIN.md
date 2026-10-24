@@ -16,7 +16,8 @@ Our website lives on GitHub Pages. Four address records at BigRock tell the inte
 
 ## The records (same for avnione.com and for avnione.in)
 
-BigRock > Sign in > Domains > the name > **Manage DNS** > **A Records** tab > Add A Record, four times:
+Sign in at https://myorders.bigrock.in/dashboard > **Orders** > the name > **DNS Records** > **Add Record** > type **A**, four times.
+(Our names use BigRock's own name servers dns2-dns4.bigrock.in, so this is BigRock's free DNS panel - help: https://www.bigrock.in/help/article/How-to-add-DNS-records-under-the-BigRock-DNS-panel)
 
 | Type | Host name | Value (points to) | TTL |
 |---|---|---|---|
@@ -25,7 +26,7 @@ BigRock > Sign in > Domains > the name > **Manage DNS** > **A Records** tab > Ad
 | A | leave empty (or @) | 185.199.110.153 | 1 hour |
 | A | leave empty (or @) | 185.199.111.153 | 1 hour |
 
-Then the **CNAME Records** tab > Add CNAME Record, once:
+Then **Add Record** > type **CNAME**, once:
 
 | Type | Host name | Value (points to) | TTL |
 |---|---|---|---|

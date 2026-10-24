@@ -24,7 +24,7 @@ import sys
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SKIP_DIRS = {".git", "tools", "docs", ".claude", "node_modules", "__pycache__"}
-SKIP_FILES = {"build.txt", "README.md", ".gitattributes"}
+SKIP_FILES = {"build.txt", "README.md", ".gitattributes", ".git"}   # .git is a FILE in a git worktree (the pipe stages one)
 OWN_LOOK_EXEMPT = {"computers/configure/index.html", "404.html"}
 
 BAD = [
