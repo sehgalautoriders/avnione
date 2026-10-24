@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AVNI One - One intelligent computing platform</title>
+<meta name="description" content="AVNI One is our computing platform from Pune, India: machines built around your work, and software that runs, checks and connects every job.">
+<meta name="theme-color" content="#0B0E14">
+<link rel="canonical" href="https://avnione.com/">
+<meta property="og:title" content="AVNI One - One intelligent computing platform">
+<meta property="og:description" content="Machines built around your work, and software that runs, checks and connects every job.">
+<meta property="og:image" content="https://avnione.com/assets/brand/avnione-social-banner.png">
+<meta property="og:url" content="https://avnione.com/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/brand/avni-a.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/brand/avni-a-512.png">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* hero picture: the A icon, floating, with two slow rings */
+  .hero .wrap { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px; align-items: center; position: relative; }
+  @media (max-width: 860px) { .hero .wrap { grid-template-columns: 1fr; } .hero-art { order: -1; max-width: 210px; margin-top: 10px; } }
+  .hero h1 .one { display: inline-block; }
+  .hero-art { position: relative; aspect-ratio: 1; width: 100%; max-width: 440px; justify-self: center; }
+  .hero-art img { position: absolute; inset: 22%; width: 56%; height: 56%; border-radius: 26%; box-shadow: 0 30px 80px -20px rgba(232,89,11,.75); animation: float 7s ease-in-out infinite; }
+  .ring { position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(244,123,32,.28); animation: spin 26s linear infinite; }
+  .ring::after { content: ""; position: absolute; top: 8%; left: 50%; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: var(--orange-word); box-shadow: 0 0 16px var(--orange-word); }
+  .ring.r2 { inset: 10%; border-color: rgba(255,255,255,.10); animation-duration: 18s; animation-direction: reverse; }
+  .ring.r2::after { background: #fff; box-shadow: 0 0 12px #fff; width: 6px; height: 6px; margin-left: -3px; }
+  @keyframes float { 50% { transform: translateY(-14px); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .hero-art img, .ring { animation: none; } }
+  .scroll-hint { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); color: var(--ink-3); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .scroll-hint i { width: 1px; height: 36px; background: linear-gradient(var(--orange-word), transparent); animation: drip 2.2s ease-in-out infinite; }
+  @keyframes drip { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+  /* the layer stack: four plates in 3D, pulled apart by the scroll (the 'stage' event sets each plate's height) */
+  .stack { position: absolute; left: 50%; top: 62%; width: 0; height: 0; transform-style: preserve-3d; transform: rotateX(58deg) rotateZ(-38deg); }
+  .plate {
+    --s: min(64vw, 330px);
+    position: absolute; width: var(--s); height: var(--s); left: calc(var(--s) / -2); top: calc(var(--s) / -2);
+    border-radius: 34px; transform-style: preserve-3d;
+    background: linear-gradient(135deg, rgba(38,45,62,.92), rgba(17,21,30,.92));
+    border: 1px solid rgba(255,255,255,.10);
+    box-shadow: 0 0 0 1px rgba(0,0,0,.4), 0 40px 80px -30px rgba(0,0,0,.9);
+    transition: border-color .4s, box-shadow .4s, background .4s;
+    display: flex; align-items: flex-end; justify-content: flex-start; padding: 26px;
+  }
+  .plate .lbl { font-weight: 700; letter-spacing: .14em; font-size: 15px; color: var(--ink-2); }
+  .plate .lbl b { color: var(--orange-word); }
+  .plate .dots { position: absolute; inset: 26px 26px auto auto; display: grid; grid-template-columns: repeat(4, 8px); gap: 9px; }
+  .plate .dots i { width: 8px; height: 8px; border-radius: 2px; background: rgba(255,255,255,.12); }
+  .plate.on { border-color: rgba(244,123,32,.85); box-shadow: 0 0 0 1px rgba(244,123,32,.5), 0 0 60px -6px rgba(232,89,11,.65); background: linear-gradient(135deg, rgba(64,40,28,.95), rgba(24,20,22,.95)); }
+  .plate.on .lbl { color: #fff; }
+  .plate.on .dots i { background: rgba(244,123,32,.7); }
+  .plate.top-plate { background: linear-gradient(135deg, rgba(232,89,11,.95), rgba(160,52,4,.95)); border-color: rgba(255,200,150,.5); }
+  .plate.top-plate .lbl, .plate.top-plate .lbl b { color: #fff; }
+  .plate.top-plate .dots i { background: rgba(255,255,255,.55); }
+  /* Nexus: four light threads that join the plates once the stack is open */
+  .thread { position: absolute; width: 2px; left: -1px; top: 0; transform-origin: 0 0; background: linear-gradient(var(--orange-word), rgba(244,123,32,.05)); opacity: 0; transition: opacity .5s; box-shadow: 0 0 10px var(--orange-word); }
+  .nexus-on .thread { opacity: 1; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="./" aria-label="AVNI One home"><img src="assets/brand/avni-a.svg" alt="" width="30" height="30">AVNI <b>ONE</b></a>
+    <button class="menu-btn" aria-expanded="false" aria-controls="nav" aria-label="Menu">&#9776;</button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="./" aria-current="page">Home</a>
+      <a href="computers/">Computers</a>
+      <a href="3dstudio/">3D Studio</a>
+      <a href="#platform">Platform</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="wrap">
+    <div>
+      <div class="eyebrow reveal">avnione.com &middot; Pune, India</div>
+      <h1 class="reveal d1">AVNI <span class="one">ONE</span></h1>
+      <p class="lead reveal d2">One intelligent computing platform. Machines built around your work, and software that runs, checks and connects every job.</p>
+      <div class="btns reveal d3">
+        <a class="btn primary" href="computers/">AVNI Computers <span class="arrow">&rarr;</span></a>
+        <a class="btn" href="3dstudio/">AVNI 3D Design Studio <span class="arrow">&rarr;</span></a>
+      </div>
+    </div>
+    <div class="hero-art reveal d2" aria-hidden="true">
+      <div class="ring"></div><div class="ring r2"></div>
+      <img src="assets/brand/avni-a.svg" alt="">
+    </div>
+  </div>
+  <div class="scroll-hint" aria-hidden="true">Scroll<i></i></div>
+</section>
+
+<section class="stage" id="platform" data-stage aria-label="The AVNI One platform, layer by layer">
+  <div class="stage-sticky">
+    <div class="wrap stage-grid">
+      <div>
+        <div class="eyebrow">The platform</div>
+        <div class="steps">
+          <div class="step"><div class="num">ONE PLATFORM</div><h2>Five layers. <span class="one">One</span> system.</h2><p>Everything we make sits on the same layers. Scroll, and we take them apart for you.</p></div>
+          <div class="step"><div class="num">01 &middot; AVNI CLOUD</div><h2>Connected infrastructure</h2><p>Our files and records live in the cloud, not on one computer. Any of our machines can pick up the work where another left it.</p></div>
+          <div class="step"><div class="num">02 &middot; AVNI CORE</div><h2>The execution foundation</h2><p>Core runs every job. Each change is built, tested and installed through one release line. Every install gets its own number and a way back.</p></div>
+          <div class="step"><div class="num">03 &middot; AVNI UNIVERSE</div><h2>Isolated workspaces</h2><p>Each long job runs in its own space. One job cannot break another, and none of them takes over the screen you are working on.</p></div>
+          <div class="step"><div class="num">04 &middot; AVNI NEXUS</div><h2>Links every piece together</h2><p>Our applications talk to each other. A finding in one reaches the others at once, without a person carrying it across.</p></div>
+          <div class="step"><div class="num">05 &middot; AVNI ONE</div><h2>What you see and use</h2><p>On top sits one calm place to open everything: the products below, with the same look and the same plain words.</p></div>
+        </div>
+        <div class="progress-rail" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="scene" aria-hidden="true">
+        <div class="stack" id="stack">
+          <div class="plate" data-layer="1"><div class="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="lbl">AVNI <b>CLOUD</b></div></div>
+          <div class="plate" data-layer="2"><div class="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="lbl">AVNI <b>CORE</b></div></div>
+          <div class="plate" data-layer="3"><div class="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="lbl">AVNI <b>UNIVERSE</b></div></div>
+          <div class="plate top-plate" data-layer="5"><div class="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="lbl">AVNI <b>ONE</b></div></div>
+          <i class="thread" data-corner="0"></i><i class="thread" data-corner="1"></i><i class="thread" data-corner="2"></i><i class="thread" data-corner="3"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pad" id="products">
+  <div class="wrap">
+    <div class="eyebrow reveal">Our products</div>
+    <h2 class="reveal d1">Each product has its own address.</h2>
+    <p class="lead reveal d2">avnione.com/computers, avnione.com/3dstudio, and more as we build them.</p>
+    <div class="cards">
+      <a class="card reveal" href="computers/">
+        <span class="tag">Open now &middot; draft</span>
+        <h3>AVNI Computers</h3>
+        <p>Pick what you will do. We put together a whole machine for it, part by part, and show why each part fits.</p>
+        <span class="go">avnione.com/computers &rarr;</span>
+      </a>
+      <a class="card reveal d1" href="3dstudio/">
+        <span class="tag soon">In development</span>
+        <h3>AVNI 3D Design Studio</h3>
+        <p>From a photo to a 3D model, then your own changes, then a print. We are building it step by step.</p>
+        <span class="go">avnione.com/3dstudio &rarr;</span>
+      </a>
+      <div class="card reveal d2">
+        <span class="tag soon">Coming</span>
+        <h3>More products</h3>
+        <p>Every new product gets its own short address here, in the same look, as soon as it is ready to show.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pad" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow reveal">How we work</div>
+    <h2 class="reveal d1">Plain words. True numbers.</h2>
+    <div class="facts">
+      <div class="fact reveal"><b>Truth on every number</b><span>A price says where it came from: a listing we saw, a launch price, or our own estimate.</span></div>
+      <div class="fact reveal d1"><b>Checked before it is shown</b><span>A part that does not fit is blocked, with the reason, before you ever see it as an option.</span></div>
+      <div class="fact reveal d2"><b>Built here</b><span>Designed and built by Aditya Enterprises in Pune, India.</span></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div>
+      <a class="brand" href="./"><img src="assets/brand/avni-a.svg" alt="" width="24" height="24">AVNI <b>ONE</b></a>
+      <p style="margin:10px 0 0">&copy; <span data-year>2026</span> Aditya Enterprises, Pune, India.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="./">Home</a><a href="computers/">AVNI Computers</a><a href="3dstudio/">AVNI 3D Design Studio</a>
+    </nav>
+    <div class="muted">avnione.com &middot; avnione.in</div>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script>
+/* The layer stack: as the reader scrolls through the platform section, the four plates rise apart (first 30 % of the scroll),
+   the plate of the current step lights up, and at the Nexus step four threads join the plates. */
+(function () {
+  var stage = document.getElementById('platform');
+  var stack = document.getElementById('stack');
+  if (!stage || !stack) return;
+  var plates = Array.prototype.slice.call(stack.querySelectorAll('.plate'));
+  var threads = Array.prototype.slice.call(stack.querySelectorAll('.thread'));
+  var steps = stage.querySelectorAll('.step').length;
+  // step -> which plate is lit (index in plates): 0 none, 1 cloud, 2 core, 3 universe, 4 nexus (all), 5 one
+  var lit = [null, 0, 1, 2, 'all', 3];
+  function ease(t) { return t < 0 ? 0 : t > 1 ? 1 : 1 - Math.pow(1 - t, 3); }
+  function draw(p) {
+    var open = ease(p / 0.3);
+    var gap = window.innerWidth < 560 ? 58 : window.innerHeight < 700 ? 84 : 100;
+    var spin = -38 + p * 24;
+    stack.style.transform = 'rotateX(58deg) rotateZ(' + spin.toFixed(2) + 'deg)';
+    var idx = Math.min(steps - 1, Math.floor(p * steps * 0.999));
+    plates.forEach(function (pl, i) {
+      var z = (i - 1.5) * gap * open + (i - 1.5) * 8;
+      pl.style.transform = 'translateZ(' + z.toFixed(1) + 'px)';
+      var l = lit[idx];
+      pl.classList.toggle('on', l === 'all' ? i < 3 : l === i && i < 3);
+    });
+    stack.classList.toggle('nexus-on', idx >= 4);
+    // threads run from the bottom plate's corners to the top plate's corners
+    var s = plates[0].offsetWidth / 2 - 30;
+    var h = 3 * gap * open + 24;
+    var corners = [[-s, -s], [s, -s], [s, s], [-s, s]];
+    threads.forEach(function (t, i) {
+      t.style.height = h.toFixed(1) + 'px';
+      t.style.transform = 'translate3d(' + corners[i][0] + 'px,' + corners[i][1] + 'px,' + (-1.5 * gap * open - 12).toFixed(1) + 'px) rotateX(90deg)';
+    });
+  }
+  stage.addEventListener('stage', function (e) { draw(e.detail.p); });
+  window.addEventListener('resize', function () { draw(stage._p || 0); });
+  draw(window.AvniOne && window.AvniOne.reduced ? 0.5 : 0);
+  if (window.AvniOne) window.AvniOne.refresh();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AVNI Computers - machines built around your work</title>
+<meta name="description" content="AVNI Computers: tell us what you will do and your budget. We put together a whole machine, check every part against the others, and show where each price came from.">
+<meta name="theme-color" content="#0B0E14">
+<link rel="canonical" href="https://avnione.com/computers/">
+<meta property="og:title" content="AVNI Computers - machines built around your work">
+<meta property="og:description" content="A whole machine for your work, every part checked against the others, every price labelled.">
+<meta property="og:image" content="https://avnione.com/assets/brand/avnione-social-banner.png">
+<meta property="og:url" content="https://avnione.com/computers/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/brand/avni-a.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/avni-a-512.png">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+  .hero .wrap { position: relative; }
+  .hero h1 { max-width: 14ch; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .chips span { font-size: 14px; color: var(--ink-2); border: 1px solid var(--line); border-radius: 99px; padding: 6px 12px; background: rgba(255,255,255,.03); }
+
+  /* the machine: real 3D boxes built by the script below (six faces each), pulled apart by the scroll */
+  .scene { perspective: 1800px; }
+  .scene::before { content: ""; position: absolute; left: 10%; right: 10%; bottom: 6%; height: 28%; border-radius: 50%; background: radial-gradient(closest-side, rgba(232,89,11,.22), transparent); filter: blur(8px); }
+  .world { position: absolute; left: 50%; top: 44%; width: 0; height: 0; transform-style: preserve-3d; }
+  .box { position: absolute; transform-style: preserve-3d; transition: filter .4s; }
+  .face { position: absolute; left: 0; top: 0; backface-visibility: visible; border: 1px solid rgba(255,255,255,.10); }
+  .box .face { background: var(--c, #222a38); }
+  .box.dim { filter: brightness(.55) saturate(.55); }
+  .box.hot .face { border-color: rgba(244,123,32,.9); box-shadow: inset 0 0 22px rgba(232,89,11,.35); }
+  .box.case-shell .face { background: rgba(120,140,170,.05); border-color: rgba(160,180,210,.22); }
+  .box.case-shell.dim { filter: none; opacity: .35; }
+  .face.trace { background-image: linear-gradient(90deg, rgba(244,123,32,.18) 1px, transparent 1px), linear-gradient(rgba(244,123,32,.12) 1px, transparent 1px); background-size: 22px 22px; }
+  .face.fins { background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.12) 0 2px, transparent 2px 9px); }
+  .face.chip { background-image: radial-gradient(circle at 50% 50%, rgba(244,123,32,.65), rgba(244,123,32,.05) 60%); }
+  .face.fan { background-image: radial-gradient(circle, transparent 38%, rgba(255,255,255,.16) 39% 41%, transparent 42%), radial-gradient(circle, rgba(255,255,255,.08) 0 18%, transparent 19%); }
+  .tagline { position: absolute; left: 0; top: 0; transform-style: preserve-3d; pointer-events: none; }
+  .tagline span { display: block; white-space: nowrap; font-size: 13px; font-weight: 700; letter-spacing: .12em; color: #fff; background: rgba(232,89,11,.92); padding: 4px 10px; border-radius: 8px; transform: translate(-50%, -140%); opacity: 0; transition: opacity .35s; }
+  .tagline.show span { opacity: 1; }
+
+  .cta { text-align: center; }
+  .cta .lead { margin: 0 auto; }
+  .cta .btns { justify-content: center; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="../" aria-label="AVNI One home"><img src="../assets/brand/avni-a.svg" alt="" width="30" height="30">AVNI <b>ONE</b></a>
+    <button class="menu-btn" aria-expanded="false" aria-controls="nav" aria-label="Menu">&#9776;</button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="../">Home</a>
+      <a href="./" aria-current="page">Computers</a>
+      <a href="../3dstudio/">3D Studio</a>
+      <a href="configure/">Configurator</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="wrap">
+    <div class="eyebrow reveal">AVNI Computers</div>
+    <h1 class="reveal d1">A machine built around <span class="one">your work</span>.</h1>
+    <p class="lead reveal d2">Tell us what you will do and how much you want to spend. We put together a whole machine, check every part against the others, and show where each price came from.</p>
+    <div class="btns reveal d3">
+      <a class="btn primary" href="configure/">Open the configurator <span class="arrow">&rarr;</span></a>
+      <a class="btn" href="#inside">See inside a machine <span class="arrow">&darr;</span></a>
+    </div>
+    <div class="chips reveal d3"><span>Gaming</span><span>CAD and design</span><span>Video</span><span>AI models</span><span>Servers</span><span>200 office desktops</span></div>
+  </div>
+</section>
+
+<section class="stage" id="inside" data-stage aria-label="Inside a machine, part by part">
+  <div class="stage-sticky">
+    <div class="wrap stage-grid">
+      <div>
+        <div class="eyebrow">Inside a machine</div>
+        <div class="steps">
+          <div class="step"><div class="num">THE WHOLE MACHINE</div><h2>Every part depends on the others.</h2><p>Change one part and five others may have to change. Scroll, and we take the machine apart the way we check it.</p></div>
+          <div class="step"><div class="num">01 &middot; PROCESSOR</div><h2>Not cores alone</h2><p>We compare processors on speed per core as well as the number of cores. A server chip with many slow cores can feel slower in Excel than a desktop chip.</p></div>
+          <div class="step"><div class="num">02 &middot; MOTHERBOARD</div><h2>The board decides the rest</h2><p>Which processors it supports, how many slots it has, which cabinet it fits. A part the board cannot take is blocked, and we tell you why.</p></div>
+          <div class="step"><div class="num">03 &middot; MEMORY</div><h2>Fill the channels</h2><p>The same memory spread across more channels runs faster. We show how many channels each build fills.</p></div>
+          <div class="step"><div class="num">04 &middot; GRAPHICS</div><h2>Graphics memory decides AI</h2><p>For AI work, the memory on the graphics card decides which models run fast on the machine. We show that for each card.</p></div>
+          <div class="step"><div class="num">05 &middot; POWER AND STORAGE</div><h2>Room to spare</h2><p>We add up the power at full load and pick a supply with headroom. Storage, cooling and the cabinet are checked the same way.</p></div>
+        </div>
+        <div class="progress-rail" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="scene" aria-hidden="true"><div class="world" id="world"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="pad">
+  <div class="wrap">
+    <div class="eyebrow reveal">The configurator</div>
+    <h2 class="reveal d1">What it does for you</h2>
+    <div class="facts">
+      <div class="fact reveal"><b>Starts from your work</b><span>Gaming, CAD, video, AI or a whole office. The build changes with the work, not with a fixed formula.</span></div>
+      <div class="fact reveal d1"><b>Any budget</b><span>From a ₹10,000 desktop to a multi-processor AI machine. It shows honestly when a budget is too small.</span></div>
+      <div class="fact reveal d2"><b>Your choice stays yours</b><span>Our suggestion changes with your budget. The machine you picked does not change unless you say so.</span></div>
+      <div class="fact reveal"><b>New and used, marked</b><span>A used part is marked as used, with the checks to make before you buy it.</span></div>
+      <div class="fact reveal d1"><b>India, UK, USA</b><span>Switch the region and the prices change. Your machine stays the same.</span></div>
+      <div class="fact reveal d2"><b>Grow later</b><span>For AI and server work we can plan a board that takes a second processor later, so you do not buy twice.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="pad cta" style="padding-top:0">
+  <div class="wrap">
+    <h2 class="reveal">Build yours.</h2>
+    <p class="lead reveal d1">Open the configurator, pick your work and your budget, and see the whole machine.</p>
+    <div class="btns reveal d2"><a class="btn primary" href="configure/">Open the configurator <span class="arrow">&rarr;</span></a></div>
+    <p class="note reveal d3" style="max-width:640px;margin-left:auto;margin-right:auto">This is a working draft (version 5.5). Every price carries its label: a listing we saw, a launch price, or our own estimate. Ask the seller for a fresh quote before you buy.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div>
+      <a class="brand" href="../"><img src="../assets/brand/avni-a.svg" alt="" width="24" height="24">AVNI <b>ONE</b></a>
+      <p style="margin:10px 0 0">&copy; <span data-year>2026</span> Aditya Enterprises, Pune, India.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../">Home</a><a href="./">AVNI Computers</a><a href="configure/">Configurator</a><a href="../3dstudio/">AVNI 3D Design Studio</a>
+    </nav>
+    <div class="muted">avnione.com &middot; avnione.in</div>
+  </div>
+</footer>
+
+<script src="../assets/site.js"></script>
+<script>
+/* The machine. Each part is a real 3D box (six faces). Sizes are in pixels at scale 1, roughly in proportion to a tower PC.
+   x = left/right, y = up/down (CSS: down is +), z = toward the viewer. 'out' is the direction the part flies when the machine opens. */
+(function () {
+  var stage = document.getElementById('inside');
+  var world = document.getElementById('world');
+  if (!stage || !world) return;
+
+  var PARTS = [
+    { id: 'case', cls: 'case-shell', w: 250, h: 330, d: 230, x: 0, y: 0, z: 0, out: [0, 0, 0], step: -1 },
+    { id: 'board', c: '#2c5a4c', w: 190, h: 230, d: 6, x: 10, y: -10, z: -100, out: [0, 0, -120], step: 2, face: 'trace', label: 'MOTHERBOARD' },
+    { id: 'cpu', c: '#7a8394', w: 46, h: 46, d: 10, x: 30, y: -70, z: -90, out: [50, -105, 70], step: 1, face: 'chip', label: 'PROCESSOR' },
+    { id: 'cooler', c: '#5c6678', w: 60, h: 60, d: 50, x: 30, y: -70, z: -60, out: [70, -170, 150], step: 1, face: 'fins' },
+    { id: 'ram1', c: '#3f6aa8', w: 8, h: 100, d: 26, x: 75, y: -60, z: -82, out: [140, -60, 40], step: 3, label: 'MEMORY' },
+    { id: 'ram2', c: '#3f6aa8', w: 8, h: 100, d: 26, x: 87, y: -60, z: -82, out: [160, -60, 40], step: 3 },
+    { id: 'ram3', c: '#3f6aa8', w: 8, h: 100, d: 26, x: 99, y: -60, z: -82, out: [180, -60, 40], step: 3 },
+    { id: 'ram4', c: '#3f6aa8', w: 8, h: 100, d: 26, x: 111, y: -60, z: -82, out: [200, -60, 40], step: 3 },
+    { id: 'gpu', c: '#4d5668', w: 200, h: 34, d: 110, x: 5, y: 40, z: -40, out: [-40, 35, 190], step: 4, face: 'fan', label: 'GRAPHICS' },
+    { id: 'psu', c: '#465063', w: 130, h: 70, d: 140, x: -45, y: 125, z: -10, out: [-130, 95, 70], step: 5, face: 'fins', label: 'POWER' },
+    { id: 'ssd', c: '#8a5a36', w: 70, h: 20, d: 4, x: 20, y: 0, z: -96, out: [-180, 30, 80], step: 5, label: 'STORAGE' }
+  ];
+
+  function face(w, h, tf, extra, color) {
+    var f = document.createElement('div');
+    f.className = 'face' + (extra ? ' ' + extra : '');
+    f.style.width = w + 'px'; f.style.height = h + 'px';
+    f.style.transform = tf;
+    if (color) f.style.setProperty('--c', color);
+    return f;
+  }
+  function box(p) {
+    var b = document.createElement('div');
+    b.className = 'box' + (p.cls ? ' ' + p.cls : '');
+    var w = p.w, h = p.h, d = p.d, c = p.c;
+    var shade = function (hex, k) {
+      if (!hex) return null;
+      var n = parseInt(hex.slice(1), 16), r = (n >> 16) & 255, g = (n >> 8) & 255, bl = n & 255;
+      return 'rgb(' + Math.round(r * k) + ',' + Math.round(g * k) + ',' + Math.round(bl * k) + ')';
+    };
+    // the six faces, each centred on the box centre
+    b.appendChild(face(w, h, 'translate(' + (-w / 2) + 'px,' + (-h / 2) + 'px) translateZ(' + d / 2 + 'px)', p.face, shade(c, 1.15)));            // front
+    b.appendChild(face(w, h, 'translate(' + (-w / 2) + 'px,' + (-h / 2) + 'px) rotateY(180deg) translateZ(' + d / 2 + 'px)', null, shade(c, .7)));  // back
+    b.appendChild(face(d, h, 'translate(' + (-d / 2) + 'px,' + (-h / 2) + 'px) rotateY(90deg) translateZ(' + w / 2 + 'px)', null, shade(c, .85)));  // right
+    b.appendChild(face(d, h, 'translate(' + (-d / 2) + 'px,' + (-h / 2) + 'px) rotateY(-90deg) translateZ(' + w / 2 + 'px)', null, shade(c, .8))); // left
+    b.appendChild(face(w, d, 'translate(' + (-w / 2) + 'px,' + (-d / 2) + 'px) rotateX(90deg) translateZ(' + h / 2 + 'px)', null, shade(c, 1)));    // top
+    b.appendChild(face(w, d, 'translate(' + (-w / 2) + 'px,' + (-d / 2) + 'px) rotateX(-90deg) translateZ(' + h / 2 + 'px)', null, shade(c, .6)));  // bottom
+    world.appendChild(b);
+    p.el = b;
+    if (p.label) {
+      var t = document.createElement('div');
+      t.className = 'tagline';
+      t.innerHTML = '<span>' + p.label + '</span>';
+      world.appendChild(t);
+      p.tag = t;
+    }
+  }
+  PARTS.forEach(box);
+
+  var steps = stage.querySelectorAll('.step').length;
+  function ease(t) { return t < 0 ? 0 : t > 1 ? 1 : 1 - Math.pow(1 - t, 3); }
+  function scale() {
+    var sc = world.parentNode.getBoundingClientRect();
+    return Math.max(0.5, Math.min(1.35, Math.min(sc.width / 470, sc.height / 470)));
+  }
+  function draw(p) {
+    var open = ease((p - 0.06) / 0.22);
+    var idx = Math.min(steps - 1, Math.floor(p * steps * 0.999));
+    var k = scale();
+    var yaw = -34 + p * 40;
+    world.style.transform = 'scale(' + k.toFixed(3) + ') rotateX(-16deg) rotateY(' + yaw.toFixed(2) + 'deg)';
+    PARTS.forEach(function (pt) {
+      var spread = 0.6 * open;
+      var x = pt.x + pt.out[0] * spread, y = pt.y + pt.out[1] * spread, z = pt.z + pt.out[2] * spread;
+      var tf = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,' + z.toFixed(1) + 'px)';
+      pt.el.style.transform = tf;
+      var focus = idx === 0 ? true : pt.step === idx;
+      pt.el.classList.toggle('dim', idx > 0 && !focus);
+      pt.el.classList.toggle('hot', idx > 0 && focus && pt.step > 0);
+      if (pt.tag) {
+        pt.tag.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + (y - pt.h / 2).toFixed(1) + 'px,' + (z + 90).toFixed(1) + 'px) rotateY(' + (-yaw).toFixed(2) + 'deg) rotateX(16deg)';
+        pt.tag.classList.toggle('show', idx > 0 && pt.step === idx);
+      }
+    });
+  }
+  stage.addEventListener('stage', function (e) { draw(e.detail.p); });
+  window.addEventListener('resize', function () { draw(stage._p || 0); });
+  draw(window.AvniOne && window.AvniOne.reduced ? 0.4 : 0);
+  if (window.AvniOne) window.AvniOne.refresh();
+})();
+</script>
+</body>
+</html>

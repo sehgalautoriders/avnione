@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found - AVNI One</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #0B0E14; color: #F4F5F7; text-align: center;
+         font-family: "Segoe UI Variable Display", "Segoe UI", Inter, system-ui, -apple-system, Arial, sans-serif; padding: 24px; box-sizing: border-box; }
+  svg { width: 84px; height: 84px; margin: 0 auto 22px; display: block; }
+  h1 { font-size: 34px; margin: 0 0 10px; }
+  p { color: #B8BEC8; margin: 0 0 26px; }
+  a { display: inline-block; background: #E8590B; color: #fff; text-decoration: none; font-weight: 600; padding: 13px 22px; border-radius: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <svg viewBox="0 0 1024 1024" aria-hidden="true"><rect width="1024" height="1024" rx="240" fill="#E8590B"/><path d="M393.8 637.2 L512 364.7 L630.2 637.2" fill="none" stroke="#fff" stroke-width="52.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="512" cy="548.7" r="26.5" fill="#fff"/></svg>
+  <h1>We could not find that page.</h1>
+  <p>The address may be wrong, or the page is not ready yet.</p>
+  <a id="home" href="https://avnione.com/">Go to the home page</a>
+</main>
+<script>
+  // The site lives at avnione.com, or under /avnione/ on its GitHub address before the domain is connected.
+  var p = location.pathname, h = document.getElementById('home');
+  h.href = p.indexOf('/avnione/') === 0 ? '/avnione/' : '/';
+</script>
+</body>
+</html>
