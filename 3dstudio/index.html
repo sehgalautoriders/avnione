@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AVNI 3D Design Studio - AVNI One</title>
+<meta name="description" content="AVNI 3D Design Studio is our program that takes a photo to a 3D model, lets you change it, and prepares it for printing in many colours. It is in development.">
+<meta name="theme-color" content="#0B0E14">
+<link rel="canonical" href="https://avnione.com/3dstudio/">
+<meta property="og:title" content="AVNI 3D Design Studio - AVNI One">
+<meta property="og:description" content="From a photo to a 3D model, your own changes, and a print in many colours. In development.">
+<meta property="og:image" content="https://avnione.com/assets/brand/avnione-social-banner.png">
+<meta property="og:url" content="https://avnione.com/3dstudio/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/brand/avni-a.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/avni-a-512.png">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+  .hero { min-height: 82vh; min-height: 82svh; }
+  .hero .wrap { position: relative; }
+  .hero h1 { font-size: clamp(38px, 6.4vw, 78px); max-width: 14ch; }
+  .tagline { display: inline-block; margin-top: 4px; padding: 6px 14px; border-radius: 99px; border: 1px solid rgba(244,123,32,.45); color: var(--orange-word); font-size: 14px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+
+  /* the scene: one SVG drawn by our own code, moved by the scroll */
+  .scene svg { width: 100%; height: 100%; overflow: visible; }
+  .scene .frame { fill: #E9E4DC; }
+  .scene .sky { fill: #BFD3E6; }
+  .scene .ground { fill: #8A8F85; }
+  .scene .flat { fill: #3B4252; }
+  .scene .mesh line { stroke: var(--orange-word); stroke-width: 1; opacity: .55; }
+  .scene .outline { fill: none; stroke: var(--orange-word); stroke-width: 2.4; stroke-linejoin: round; }
+  .scene .bed-top { fill: #1D2433; stroke: #3A4356; stroke-width: 1.5; }
+  .scene .bed-side { fill: #121723; stroke: #2A3142; stroke-width: 1; }
+  .scene .bed-grid { stroke: #2F384C; stroke-width: 1; }
+  .scene .lbl-svg { fill: var(--ink-3); font: 600 12px var(--font); letter-spacing: .14em; }
+  .scene .layerline { stroke: #000; stroke-width: 1; opacity: .28; }
+  .chip { stroke: rgba(255,255,255,.35); stroke-width: 1.5; }
+
+  .list { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 12px; }
+  .pad.alt { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .back { margin-top: 36px; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="../" aria-label="AVNI One home"><img src="../assets/brand/avni-a.svg" alt="" width="30" height="30">AVNI <b>ONE</b></a>
+    <button class="menu-btn" aria-expanded="false" aria-controls="nav" aria-label="Menu">&#9776;</button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="../">Home</a>
+      <a href="../computers/">Computers</a>
+      <a href="./" aria-current="page">3D Studio</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="wrap">
+    <div class="eyebrow reveal">avnione.com/3dstudio</div>
+    <h1 class="reveal d1">AVNI 3D Design <span class="one">Studio</span></h1>
+    <p class="lead reveal d2">Start with a photo. End with a model you can print in many colours. Change the body, the colours and the palette on the way.</p>
+    <span class="tagline reveal d3">In development</span>
+  </div>
+</section>
+
+<section class="stage" id="road" data-stage aria-label="The road from a photo to a colour print">
+  <div class="stage-sticky">
+    <div class="wrap stage-grid">
+      <div>
+        <div class="eyebrow">The road</div>
+        <div class="steps">
+          <div class="step"><div class="num">01 &middot; A PHOTO</div><h2>Start with one picture.</h2><p>A toy car, a part, a gift. Give us a photo, or a few photos of the same thing.</p></div>
+          <div class="step"><div class="num">02 &middot; A 3D MODEL</div><h2>The photo becomes a model.</h2><p>We build the shape and keep the colours. You can turn it round and look at every side.</p></div>
+          <div class="step"><div class="num">03 &middot; YOUR CHANGES</div><h2>Make it yours.</h2><p>Change the body. Change the colours and the palette. Take the paint and design of one car and put it on the body of another.</p></div>
+          <div class="step"><div class="num">04 &middot; THE PRINT</div><h2>Print it in many colours.</h2><p>We turn the colours into a few filament colours. Before you print, you see a true quote in grams, hours and rupees.</p></div>
+        </div>
+        <div class="progress-rail" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="scene" aria-hidden="true">
+        <svg viewBox="0 0 600 440" preserveAspectRatio="xMidYMid meet" role="img">
+          <defs>
+            <clipPath id="carClip"><path d="M60 262 L60 232 Q60 214 88 208 L152 197 Q182 148 240 140 L332 140 Q380 146 406 190 L452 200 Q484 206 486 234 L486 262 Z"/></clipPath>
+            <clipPath id="paintReveal"><rect id="paintRect" x="40" y="120" width="0" height="170"/></clipPath>
+            <clipPath id="printReveal"><rect id="printRect" x="40" y="290" width="470" height="0"/></clipPath>
+            <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset="1" stop-color="#000" stop-opacity=".25"/>
+            </linearGradient>
+          </defs>
+
+          <!-- print bed (shown in the last step) -->
+          <g id="bed" opacity="0">
+            <polygon class="bed-side" points="70,372 530,372 560,392 40,392"/>
+            <polygon class="bed-top" points="110,318 490,318 560,372 40,372"/>
+            <g class="bed-grid"><line x1="150" y1="318" x2="125" y2="372"/><line x1="230" y1="318" x2="225" y2="372"/><line x1="310" y1="318" x2="310" y2="372"/><line x1="390" y1="318" x2="395" y2="372"/><line x1="470" y1="318" x2="495" y2="372"/><line x1="82" y1="345" x2="518" y2="345"/></g>
+            <text class="lbl-svg" x="300" y="415" text-anchor="middle">PRINT BED</text>
+          </g>
+
+          <!-- the photo card (first step) -->
+          <g id="photo">
+            <g id="photoTilt">
+              <rect class="frame" x="24" y="96" width="498" height="236" rx="10"/>
+              <rect class="sky" x="36" y="108" width="474" height="150"/>
+              <rect class="ground" x="36" y="258" width="474" height="62"/>
+              <circle cx="450" cy="150" r="22" fill="#F7E7B0"/>
+            </g>
+          </g>
+
+          <!-- the car: flat in the photo, a mesh in the model, painted in the changes -->
+          <g id="car">
+            <path class="flat" id="flatCar" d="M60 262 L60 232 Q60 214 88 208 L152 197 Q182 148 240 140 L332 140 Q380 146 406 190 L452 200 Q484 206 486 234 L486 262 Z"/>
+            <g id="paint" clip-path="url(#paintReveal)">
+              <g clip-path="url(#carClip)">
+                <rect id="bodyFill" x="40" y="120" width="470" height="150" fill="#E8590B"/>
+                <rect x="40" y="120" width="470" height="150" fill="url(#bodyGrad)"/>
+                <path id="stripe" d="M60 236 L486 236 L486 246 L60 246 Z" fill="#fff" opacity="0"/>
+              </g>
+              <path d="M170 198 Q192 156 240 150 L292 150 L292 198 Z" fill="#CFE3F3"/>
+              <path d="M304 150 L334 150 Q368 156 388 198 L304 198 Z" fill="#CFE3F3"/>
+            </g>
+            <g id="wire" opacity="0">
+              <g class="mesh" id="mesh" clip-path="url(#carClip)"></g>
+              <path class="outline" id="wireOutline" d="M60 262 L60 232 Q60 214 88 208 L152 197 Q182 148 240 140 L332 140 Q380 146 406 190 L452 200 Q484 206 486 234 L486 262 Z" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
+              <path class="outline" d="M170 198 Q192 156 240 150 L292 150 L292 198 Z M304 150 L334 150 Q368 156 388 198 L304 198 Z" stroke-width="1.4" opacity=".7"/>
+            </g>
+            <g id="layers" clip-path="url(#carClip)"><g clip-path="url(#printReveal)" id="layerLines"></g></g>
+            <g id="wheels">
+              <circle cx="146" cy="262" r="31" fill="#10141C"/><circle cx="146" cy="262" r="15" fill="#6B7385"/>
+              <circle cx="400" cy="262" r="31" fill="#10141C"/><circle cx="400" cy="262" r="15" fill="#6B7385"/>
+            </g>
+          </g>
+
+          <!-- the palette (third step) -->
+          <g id="palette" opacity="0">
+            <rect x="24" y="30" width="290" height="44" rx="12" fill="#161B26" stroke="#262D3B"/>
+            <circle class="chip" cx="52" cy="52" r="12" fill="#E8590B"/>
+            <circle class="chip" cx="88" cy="52" r="12" fill="#1EAAA0"/>
+            <circle class="chip" cx="124" cy="52" r="12" fill="#F4F5F7"/>
+            <circle class="chip" cx="160" cy="52" r="12" fill="#CFE3F3"/>
+            <circle class="chip" cx="196" cy="52" r="12" fill="#10141C"/>
+            <text class="lbl-svg" x="298" y="56" text-anchor="end">PALETTE</text>
+          </g>
+
+          <!-- filament colours (last step) -->
+          <g id="filaments" opacity="0">
+            <rect x="300" y="30" width="276" height="44" rx="12" fill="#161B26" stroke="#262D3B"/>
+            <circle class="chip" cx="326" cy="52" r="12" fill="#1EAAA0"/>
+            <circle class="chip" cx="362" cy="52" r="12" fill="#F4F5F7"/>
+            <circle class="chip" cx="398" cy="52" r="12" fill="#CFE3F3"/>
+            <circle class="chip" cx="434" cy="52" r="12" fill="#10141C"/>
+            <text class="lbl-svg" x="560" y="56" text-anchor="end">4 COLOURS</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pad">
+  <div class="wrap">
+    <div class="eyebrow reveal">Built now</div>
+    <h2 class="reveal d1">The first job is done.</h2>
+    <p class="lead reveal d2">The program opens a 3D file and looks after it. This is the base for everything that follows.</p>
+    <div class="cards">
+      <div class="card reveal"><span class="tag">Built now</span><h3>Open any 3D file</h3><p>GLB, OBJ, STL, 3MF and PLY files all open the same way.</p></div>
+      <div class="card reveal d1"><span class="tag">Built now</span><h3>See it turning</h3><p>The model turns on the screen. You look at it from every side.</p></div>
+      <div class="card reveal d2"><span class="tag">Built now</span><h3>Check and repair</h3><p>We check the model for holes and faults, and repair them.</p></div>
+      <div class="card reveal"><span class="tag">Built now</span><h3>Real size in mm</h3><p>You set the true size, so a part prints at the size you want.</p></div>
+      <div class="card reveal d1"><span class="tag">Built now</span><h3>Save in another format</h3><p>Save the model in a different file type when another tool needs it.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="pad alt">
+  <div class="wrap">
+    <div class="eyebrow reveal">Coming</div>
+    <h2 class="reveal d1">What we are building next.</h2>
+    <p class="lead reveal d2">These parts are in development. They are not ready yet.</p>
+    <div class="cards">
+      <div class="card reveal"><span class="tag soon">In development</span><h3>Photo to coloured 3D model</h3><p>Give a photo and get a coloured model. We plan to use both free and paid cloud engines, so you can choose what you spend.</p></div>
+      <div class="card reveal d1"><span class="tag soon">In development</span><h3>Design changes</h3><p>Change the body, the colours and the palette. Copy the paint and design of one car onto the body of another.</p></div>
+      <div class="card reveal d2"><span class="tag soon">In development</span><h3>Multi-colour print with a real quote</h3><p>We turn the colours into a few filament colours. The quote shows grams, hours and rupees, and it changes when your settings change.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="pad">
+  <div class="wrap">
+    <div class="eyebrow reveal">Why we build it</div>
+    <h2 class="reveal d1">The whole road, in our hands.</h2>
+    <div class="facts">
+      <div class="fact reveal"><b>Colours are kept</b><span>Many tools lose the colours on the way. We want them to stay from the photo to the print.</span></div>
+      <div class="fact reveal d1"><b>A price you can trust</b><span>A print quote should move when the infill, the size or the colours move. Ours will.</span></div>
+      <div class="fact reveal d2"><b>Your changes</b><span>Body, colours and palette stay yours to change, before anything is printed.</span></div>
+      <div class="fact reveal d3"><b>Built here</b><span>Designed and built by Aditya Enterprises in Pune, India.</span></div>
+    </div>
+    <div class="note reveal">AVNI 3D Design Studio is in development. This page shows where it is going.</div>
+    <div class="btns back reveal"><a class="btn" href="../">&larr; Back to AVNI One</a><a class="btn" href="../computers/">AVNI Computers <span class="arrow">&rarr;</span></a></div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div>
+      <a class="brand" href="../"><img src="../assets/brand/avni-a.svg" alt="" width="24" height="24">AVNI <b>ONE</b></a>
+      <p style="margin:10px 0 0">&copy; <span data-year>2026</span> Aditya Enterprises, Pune, India.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="../">Home</a><a href="../computers/">AVNI Computers</a><a href="./">AVNI 3D Design Studio</a>
+    </nav>
+    <div class="muted">avnione.com &middot; avnione.in</div>
+  </div>
+</footer>
+
+<script src="../assets/site.js"></script>
+<script>
+/* The road scene: one SVG, moved by the scroll. t runs 0..4 (one unit for each step).
+   0-1 photo, 1-2 wireframe model, 2-3 paint and palette, 3-4 move to the print bed and print in layers. */
+(function () {
+  var stage = document.getElementById('road');
+  if (!stage) return;
+  var NS = 'http://www.w3.org/2000/svg';
+  function $(id) { return document.getElementById(id); }
+  function seg(t, a, b) { return t <= a ? 0 : t >= b ? 1 : (t - a) / (b - a); }
+  function ease(x) { return x * x * (3 - 2 * x); }
+
+  // the mesh lines inside the car shape, and the print layer lines
+  var mesh = $('mesh'), layerLines = $('layerLines');
+  function line(parent, x1, y1, x2, y2, cls) {
+    var l = document.createElementNS(NS, 'line');
+    l.setAttribute('x1', x1); l.setAttribute('y1', y1); l.setAttribute('x2', x2); l.setAttribute('y2', y2);
+    if (cls) l.setAttribute('class', cls);
+    parent.appendChild(l);
+  }
+  var x, y;
+  for (x = 40; x <= 510; x += 20) line(mesh, x, 130, x, 280);
+  for (y = 140; y <= 280; y += 14) line(mesh, 40, y, 510, y);
+  for (x = 20; x <= 520; x += 40) line(mesh, x, 130, x + 150, 280);
+  for (y = 292; y > 130; y -= 7) line(layerLines, 40, y, 510, y, 'layerline');
+
+  var photo = $('photo'), tilt = $('photoTilt'), flat = $('flatCar'), wire = $('wire'), outline = $('wireOutline');
+  var paintRect = $('paintRect'), body = $('bodyFill'), stripe = $('stripe'), palette = $('palette');
+  var car = $('car'), bed = $('bed'), printRect = $('printRect'), filaments = $('filaments');
+
+  function lerp(a, b, k) { return Math.round(a + (b - a) * k); }
+
+  function draw(p) {
+    var t = p * 4;
+    // 1. photo card fades as the model starts
+    var gone = ease(seg(t, 0.75, 1.15));
+    photo.setAttribute('opacity', (1 - gone).toFixed(3));
+    tilt.setAttribute('transform', 'rotate(' + (-1.5 * seg(t, 0, 1)).toFixed(2) + ' 273 214)');
+    flat.setAttribute('opacity', (1 - ease(seg(t, 0.9, 1.3)) * 0.82).toFixed(3));
+    // 2. the wire mesh draws itself, then softens once paint arrives
+    wire.setAttribute('opacity', (ease(seg(t, 0.85, 1.2)) * (1 - ease(seg(t, 2.3, 2.9)) * 0.75)).toFixed(3));
+    outline.setAttribute('stroke-dashoffset', (1 - ease(seg(t, 0.9, 1.9))).toFixed(3));
+    // 3. paint sweeps across, the body colour changes, a stripe is added, the palette shows
+    paintRect.setAttribute('width', (470 * ease(seg(t, 2.0, 2.55))).toFixed(1));
+    var k = ease(seg(t, 2.45, 2.85));
+    body.setAttribute('fill', 'rgb(' + lerp(232, 30, k) + ',' + lerp(89, 170, k) + ',' + lerp(11, 160, k) + ')');
+    stripe.setAttribute('opacity', (0.9 * ease(seg(t, 2.65, 3.0))).toFixed(3));
+    palette.setAttribute('opacity', (ease(seg(t, 1.95, 2.3)) * (1 - ease(seg(t, 3.2, 3.5)))).toFixed(3));
+    // 4. the car moves onto the print bed, then prints from the bottom up
+    var m = ease(seg(t, 3.0, 3.45));
+    var s = 1 - 0.28 * m;
+    car.setAttribute('transform', 'translate(273 ' + (200 + 78 * m).toFixed(1) + ') scale(' + s.toFixed(3) + ') translate(-273 -200)');
+    bed.setAttribute('opacity', ease(seg(t, 2.95, 3.3)).toFixed(3));
+    printRect.setAttribute('y', (292 - 170 * ease(seg(t, 3.45, 3.98))).toFixed(1));
+    printRect.setAttribute('height', (170 * ease(seg(t, 3.45, 3.98))).toFixed(1));
+    filaments.setAttribute('opacity', ease(seg(t, 3.3, 3.6)).toFixed(3));
+  }
+
+  stage.addEventListener('stage', function (e) { draw(e.detail.p); });
+  // with reduced motion the page shows every step as text; show the finished picture
+  draw(window.AvniOne && window.AvniOne.reduced ? 0.97 : 0);
+  if (window.AvniOne) window.AvniOne.refresh();
+})();
+</script>
+</body>
+</html>
