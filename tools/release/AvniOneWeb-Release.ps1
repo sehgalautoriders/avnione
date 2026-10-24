@@ -130,6 +130,32 @@ switch ($Phase) {
         }
         if (-not $asked) { Write-Host "  note: the page build request was not taken; GitHub builds after the push by itself" }
         Set-Content -LiteralPath (Join-Path $Build 'build-asked-at.txt') -Value (Get-Date).ToUniversalTime().AddMinutes(-2).ToString('o') -Encoding UTF8
+        # avnione.in: a tiny second site (tools\avnione-in: index.html + 404.html + CNAME avnione.in) that sends every visitor to the
+        # same page on avnione.com. It is pushed here, from this candidate, so it never goes out by hand. Its CNAME claims avnione.in on
+        # GitHub at once, before the domain records point at GitHub, so nobody else can claim the name in between.
+        $fwd = Join-Path $src 'tools\avnione-in'
+        if (Test-Path -LiteralPath (Join-Path $fwd 'index.html')) {
+            $fRepo = "$($GhRepo)-in"
+            & gh api "repos/$fRepo" 2>$null | Out-Null
+            if ($LASTEXITCODE -ne 0) {
+                & gh repo create $fRepo --public --description "avnione.in - sends every visitor to the same page on avnione.com" --homepage "https://avnione.in" --disable-wiki --disable-issues 2>&1 | Out-Null
+                if ($LASTEXITCODE -ne 0) { throw "the forwarder repository $fRepo could not be made" }
+            }
+            $tmp = Join-Path $Build 'avnione-in'
+            if (Test-Path $tmp) { Remove-Item $tmp -Recurse -Force }
+            New-Item -ItemType Directory -Force $tmp | Out-Null
+            Copy-Item -Path (Join-Path $fwd '*') -Destination $tmp -Force
+            Copy-Item -LiteralPath (Join-Path $fwd '.nojekyll') -Destination $tmp -Force -ErrorAction SilentlyContinue
+            & git -C $tmp init -q -b main 2>&1 | Out-Null
+            & git -C $tmp add -A 2>&1 | Out-Null
+            & git -C $tmp -c user.name=Claude -c user.email=noreply@anthropic.com commit -q -m "avnione.in forwarder from AVNI One website $($Commit.Substring(0, 7)) ($Rc)" 2>&1 | Out-Null
+            GitRetry @('-C', $tmp, 'push', '--force', "https://github.com/$fRepo.git", 'main:refs/heads/main') 4 | Out-Null
+            & gh api "repos/$fRepo/pages" 2>$null | Out-Null
+            if ($LASTEXITCODE -ne 0) {
+                '{"source":{"branch":"main","path":"/"}}' | & gh api -X POST "repos/$fRepo/pages" --input - 2>&1 | Out-Null
+            }
+            Write-Host "  avnione.in forwarder pushed to $fRepo (CNAME avnione.in)"
+        }
         New-Item -ItemType Directory -Force $instDir | Out-Null
         [ordered]@{ target = 'AVNI-ONE-WEB'; chain = 'avni-one-web'; commit = $Commit; mark = (Mark); site = (SiteUrl $siteDir); release = $Rc; installedAt = (Get-Date -Format 'dd-MM-yyyy HH:mm') } |
             ConvertTo-Json | Set-Content -LiteralPath $instF -Encoding UTF8
