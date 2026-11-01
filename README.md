@@ -13,6 +13,13 @@ avnione.com is the main address. avnione.in sends every visitor to the same page
 AVNI One is the name we show to the world (brand set 16-10-2026, `AVNI\Brand\AVNI One`). Each product gets its own short address:
 /computers for AVNI Computers, /3dstudio for AVNI 3D Design Studio, and any later /name the same way.
 
+Inside /computers:
+- `/computers/build/` - the simple builder (01-11-2026): 1 budget -> 2 machines at that budget, each saying what it is
+  best used for -> 3 inside the machine, change any part to anything from ₹0 (leave it out) to the most expensive,
+  with India and world shop links -> 4 get it built. Parts list: `computers/build/parts.js` (copied from the V5.5
+  configurator, plus memory kits 8 GB - 6 TB and more cards, drives, power supplies, coolers and cabinets).
+- `/computers/configure/` - the V5.5 configurator, kept as the "Advanced planner" (fleets, facilities, learning pages).
+
 ## How a new page is added
 
 1. Make a folder with the short name, for example `abc/`.

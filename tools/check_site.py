@@ -7,7 +7,7 @@ What it checks, on every .html page the site serves:
   3. Nothing private is on it: no e-mail address, no 10-digit mobile number, no key or token, no owner's name,
      no internal folder path (law 3 "Private means private" - the site is public by nature).
   4. Our words: the page speaks as "we", and never uses the word that our law bans for a half-done thing.
-  5. Product pages (not the configurator, which has its own look) use the shared look: assets/site.css and assets/site.js.
+  5. Product pages (not the configurator or the simple builder, which have their own look) use the shared look: assets/site.css and assets/site.js.
 
 The build mark (build.txt) is the first 12 signs of a SHA-256 over every served file except build.txt itself.
 The release step reads it from the live site to prove the site serves this exact build. Nobody types it.
@@ -25,7 +25,7 @@ import sys
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SKIP_DIRS = {".git", "tools", "docs", ".claude", "node_modules", "__pycache__"}
 SKIP_FILES = {"build.txt", "README.md", ".gitattributes", ".git"}   # .git is a FILE in a git worktree (the pipe stages one)
-OWN_LOOK_EXEMPT = {"computers/configure/index.html", "404.html"}
+OWN_LOOK_EXEMPT = {"computers/configure/index.html", "computers/build/index.html", "404.html"}
 
 BAD = [
     (re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Za-z]{2,}(?:\.[A-Za-z]{2,})?"), "an e-mail address"),
