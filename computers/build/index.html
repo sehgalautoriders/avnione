@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Build your machine - AVNI Computers</title>
+<meta name="description" content="Tell us your budget, pick a machine, then go inside and change any part - processor, memory, graphics, storage - to anything at any price. We build what you choose.">
+<meta name="theme-color" content="#fbfaf6">
+<link rel="canonical" href="https://avnione.com/computers/build/">
+<meta property="og:title" content="Build your machine - AVNI Computers">
+<meta property="og:description" content="Your budget, a machine, then change any part to anything. We build what you choose.">
+<meta property="og:image" content="https://avnione.com/assets/brand/avnione-social-banner.png">
+<link rel="icon" href="../../assets/brand/avni-a.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../assets/brand/avni-a-512.png">
+<style>
+/* Same identity as the V5.5 configurator: cream page, ink type, orange brand, teal guidance, green = your machine.
+   Light by default; dark only when the visitor asks for it with the moon button. */
+:root{--bg:#fbfaf6;--surface:#fff;--surface2:#f5f9f6;--ink:#152a31;--mut:#5c7275;--line:#dfe9e6;--soft:#eff7f3;--teal:#087f77;--tealink:#0b6f68;--orange:#f36a39;--orangeink:#b44a20;--orangebg:#fff0e7;--green:#0a7c63;--greenbg:#e8f7ef;--warnbg:#fff4dc;--warnline:#f0d39a;--warn:#8a5d10;--shadow:0 10px 32px #142c3012;--font:Inter,"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;color-scheme:light}
+:root[data-theme="dark"]{--bg:#0e1b1f;--surface:#142529;--surface2:#182d32;--ink:#e4efed;--mut:#9fb6b4;--line:#27413f;--soft:#163030;--teal:#45c2b4;--tealink:#6fd6c9;--orange:#ff7d4d;--orangeink:#ffb090;--orangebg:#3a2219;--green:#45cf9f;--greenbg:#123a2e;--warnbg:#332812;--warnline:#5e4a1d;--warn:#f1c675;--shadow:0 10px 32px #00000040;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.55}
+body.hasbar{padding-bottom:110px}
+body.noscroll{overflow:hidden}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--tealink)}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+h1,h2,h3{margin:0;letter-spacing:-.02em;line-height:1.15}
+h1{font-size:clamp(30px,5vw,48px);font-weight:850}
+h2{font-size:clamp(22px,3.2vw,32px);font-weight:800}
+h3{font-size:18px;font-weight:800}
+p{margin:0 0 10px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 16px}
+.muted{color:var(--mut)}.small{font-size:13px}.tiny{font-size:12px}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);font-weight:700;font-size:14px;padding:10px 16px;min-height:44px;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--teal)}
+.btn.primary{background:var(--orange);border-color:var(--orange);color:#fff}
+.btn.primary:hover{filter:brightness(1.06)}
+.btn.sm{min-height:34px;padding:6px 12px;font-size:13px}
+.btn:disabled{opacity:.55;cursor:default}
+.btn.big{font-size:17px;padding:14px 26px;min-height:54px;border-radius:14px}
+.linkbtn{background:none;border:0;padding:0;color:var(--tealink);font-weight:700;text-decoration:underline}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:7px 13px;font-size:13px;font-weight:700;color:var(--ink)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.note{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:0 0 14px;font-size:14px}
+.note.warn{background:var(--warnbg);border-color:var(--warnline);color:var(--warn)}
+.note ul{margin:6px 0 8px;padding-left:18px}
+#toast{position:fixed;left:50%;bottom:130px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:80;max-width:calc(100% - 32px)}
+#toast.show{opacity:1}
+
+/* header */
+.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.topin{display:flex;align-items:center;gap:14px;min-height:62px;flex-wrap:wrap;padding-block:6px}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);font-weight:850;font-size:18px;letter-spacing:-.03em;white-space:nowrap}
+.brand img{width:30px;height:30px}.brand b{color:var(--orange)}.brand small{font-size:10px;letter-spacing:.12em;color:var(--teal);font-weight:800}
+.navl{display:flex;gap:12px;font-size:13px;font-weight:700}.navl a{color:var(--mut);text-decoration:none}.navl a:hover{color:var(--orange)}
+.topb{margin-left:auto;display:flex;align-items:center;gap:8px}
+.topb label{font-size:12px;font-weight:700;color:var(--mut)}
+.topb .bin{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:0 8px}
+.topb input{border:0;background:transparent;width:120px;padding:7px 4px;font-weight:800;font-variant-numeric:tabular-nums}
+.topb input:focus{outline:none}
+.tbtn{width:40px;height:40px;border:1px solid var(--line);border-radius:10px;background:var(--surface);display:grid;place-items:center}
+
+/* steps */
+.steps{display:flex;gap:6px;margin:18px 0 22px;overflow-x:auto;padding-bottom:2px}
+.steps button{flex:1 1 0;min-width:140px;display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:10px 12px;text-align:left;font-weight:700;font-size:14px;color:var(--mut)}
+.steps button i{font-style:normal;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--soft);color:var(--tealink);font-weight:850;flex:none}
+.steps button.on{border:2px solid var(--orange);color:var(--ink)}
+.steps button.on i{background:var(--orange);color:#fff}
+.steps button.done i{background:var(--green);color:#fff}
+.steps button:disabled{opacity:.5;cursor:default}
+
+/* step 1 */
+.budgetHero{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start}
+.bigin{display:flex;align-items:center;gap:6px;border:2px solid var(--orange);border-radius:16px;background:var(--surface);padding:6px 16px;margin:16px 0 6px;max-width:460px}
+.bigin span{font-size:30px;font-weight:850;color:var(--orange)}
+.bigin input{border:0;background:transparent;font-size:34px;font-weight:850;width:100%;font-variant-numeric:tabular-nums;padding:6px 0}
+.bigin input:focus{outline:none}
+#budgetWords{font-weight:700;color:var(--tealink);min-height:22px}
+#quick{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 16px}
+.chk{display:flex;gap:8px;align-items:center;font-size:14px;margin-bottom:18px}
+.how3 ol{margin:8px 0 0;padding-left:20px}.how3 li{margin-bottom:8px}
+
+/* step 2 */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.mcard{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
+.mcard:hover{border-color:var(--teal)}
+.mhead{display:flex;gap:10px;align-items:flex-start}.mhead p{margin:2px 0 0}
+.mnum{display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:var(--orangebg);color:var(--orangeink);font-weight:850;flex:none}
+.best{background:var(--greenbg);border-radius:12px;padding:10px 12px}
+.best b{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--green)}
+.best ul,.bf{margin:6px 0 0;padding-left:18px}.best li,.bf li{margin-bottom:3px}
+.mspec{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0;font-size:13.5px}
+.mspec dt{color:var(--mut);font-weight:700}.mspec dd{margin:0}
+.mfoot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px}
+.mprice{font-size:24px;font-weight:850;font-variant-numeric:tabular-nums}
+
+/* step 3 */
+.insideGrid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px;align-items:start}
+.parts{display:grid;gap:10px}
+.prow{display:grid;grid-template-columns:170px minmax(0,1fr) auto 150px auto;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
+.prow.changed{border:2px solid var(--teal);background:var(--surface2)}
+.prow.left{opacity:.8;border-style:dashed}
+.pcat b{display:block;font-size:14px}.pcat span{font-size:12px;color:var(--mut);line-height:1.35;display:block;margin-top:2px}
+.pname{font-weight:800;font-size:15px}
+.pspec,.ospec{font-size:12.5px;color:var(--mut);margin-top:2px}
+.pnote{font-size:12px;color:var(--warn);margin-top:3px}
+.pprice{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.pv{font-weight:850;font-size:16px;font-variant-numeric:tabular-nums}
+.pv.quote{font-size:14px;color:var(--orangeink)}
+.pl{display:inline-block;font-size:10.5px;font-weight:800;border-radius:6px;padding:2px 6px;white-space:nowrap;background:var(--soft);color:var(--tealink)}
+.pl.seen{background:var(--greenbg);color:var(--green)}
+.pl.fx{background:var(--warnbg);color:var(--warn)}
+.pl.quote{background:var(--orangebg);color:var(--orangeink)}
+.stepper{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.stepper button{width:34px;height:34px;border:0;background:var(--soft);font-weight:850;font-size:17px}
+.stepper button:disabled{opacity:.35;cursor:default}
+.stepper span{min-width:30px;text-align:center;font-weight:850}
+.qfix{font-weight:800;color:var(--mut)}
+.shops{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:6px;font-size:12px}
+.shops span{display:flex;flex-wrap:wrap;gap:2px 8px;align-items:center}
+.shops b{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.shops a{text-decoration:none;font-weight:700}.shops a:hover{text-decoration:underline}
+.side{display:grid;gap:12px;position:sticky;top:80px}
+.legend{list-style:none;margin:8px 0 0;padding:0;font-size:12.5px;color:var(--mut);display:grid;gap:8px}
+.undoRow{margin-bottom:12px}
+
+/* bottom bar */
+#bar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -8px 28px #142c3014;padding:10px 0 calc(10px + env(safe-area-inset-bottom,0px))}
+.barin{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.barcol small{display:block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+#barTotal{font-size:22px;font-weight:850;font-variant-numeric:tabular-nums}
+#barBudget{font-weight:800;font-variant-numeric:tabular-nums}
+.meter{flex:1 1 180px;min-width:140px}
+.meter .track{height:8px;border-radius:9px;background:var(--soft);overflow:hidden}
+#barFill{height:100%;background:var(--green);border-radius:9px;transition:width .3s}
+#barFill.over{background:var(--orange)}
+#barDiff{font-size:12.5px;font-weight:700;margin-top:4px;display:block}
+#barDiff.over{color:var(--orangeink)}#barDiff.under{color:var(--green)}
+#barWords{font-size:12px;color:var(--mut)}
+
+/* picker */
+#picker{position:fixed;inset:0;z-index:60;background:#0a1a1e80;display:flex;justify-content:flex-end}
+#picker[hidden]{display:none}
+.pk{background:var(--bg);width:min(860px,100%);height:100%;display:flex;flex-direction:column;box-shadow:-20px 0 40px #0003}
+.pkhead{padding:16px;border-bottom:1px solid var(--line);background:var(--surface);display:grid;gap:10px}
+.pktop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+#pkRange{font-size:13.5px;color:var(--mut)}
+.pkrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pkrow input,.pkrow select{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:9px 12px;min-height:40px}
+.pkrow input{flex:1 1 220px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--surface);padding:8px 12px;font-weight:700;font-size:13px}
+.seg button.on{background:var(--ink);color:var(--bg)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.chips .chip{flex:none}
+#pkList{overflow-y:auto;padding:12px 16px 40px;display:grid;gap:8px;align-content:start}
+.opt{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.opt.cur{border:2px solid var(--green)}
+.oname{font-weight:800}
+.ometa{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:6px;font-size:12px;font-weight:700}
+.fit.ok{color:var(--green)}.fit.cur{color:var(--green)}.fit.chg{color:var(--orangeink)}
+.delta{color:var(--mut)}.delta.up{color:var(--orangeink)}.delta.down{color:var(--green)}
+.oside{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:8px;text-align:right}
+.oprice{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+
+/* step 4 */
+.builtGrid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:16px;align-items:start}
+.sheetT{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
+.sheetT th,.sheetT td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;vertical-align:top}
+.sheetT th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.sheetT .r{text-align:right;white-space:nowrap}
+.sheetT tfoot td{font-weight:850;font-size:16px;border-bottom:0}
+.sheetT tr.left td{color:var(--mut);font-size:13px}
+.sheet h2 small{font-size:14px;color:var(--orangeink)}
+.how ol{padding-left:20px;margin:8px 0 0}.how li{margin-bottom:8px}
+
+.foot{border-top:1px solid var(--line);margin-top:40px;padding:22px 0;font-size:13px;color:var(--mut)}
+.foot .wrap{display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between}
+.foot a{color:var(--mut);margin-right:12px}
+
+@media (max-width:1000px){
+  .insideGrid,.builtGrid,.budgetHero{grid-template-columns:1fr}
+  .side{position:static}
+  .prow{grid-template-columns:1fr auto;grid-template-areas:"cat cat" "main main" "qty price" "act act"}
+  .pcat{grid-area:cat}.pmain{grid-area:main}.pqty{grid-area:qty}.pprice{grid-area:price}.pact{grid-area:act}
+  .pact .btn{width:100%}
+  .pcat span{display:none}
+}
+@media (max-width:640px){
+  .navl{display:none}
+  .topb label{display:none}
+  .topb input{width:96px}
+  .steps button{min-width:118px;font-size:12.5px;padding:8px}
+  .steps button i{width:24px;height:24px}
+  .opt{grid-template-columns:1fr}
+  .oside{flex-direction:row;align-items:center;text-align:left}
+  .oprice{align-items:flex-start}
+  #barTotal{font-size:18px}
+  .barin{gap:8px 14px}
+  #barNext{width:100%}
+  body.hasbar{padding-bottom:130px}
+  #barBudgetCol,#barWords{display:none}
+  #barNext{min-height:40px}
+  .bigin input{font-size:28px}
+}
+@media print{
+  .top,.steps,#bar,.foot,.how .btnrow,#toast{display:none!important}
+  body{background:#fff;color:#000}
+  .panel{box-shadow:none;border:0}
+  .builtGrid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap topin">
+    <a class="brand" href="../../" aria-label="AVNI One home"><img src="../../assets/brand/avni-a.svg" alt="" width="30" height="30">AVNI<b>ONE</b><small>/ COMPUTERS</small></a>
+    <nav class="navl" aria-label="Main"><a href="../../">Home</a><a href="../">Computers</a><a href="../configure/">Advanced planner</a></nav>
+    <div class="topb">
+      <label for="topBudget">My budget</label>
+      <div class="bin"><span aria-hidden="true">₹</span><input id="topBudget" inputmode="numeric" autocomplete="off" aria-label="My budget in rupees"></div>
+      <button class="tbtn" id="themeBtn" aria-label="Switch between light and dark"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" fill="currentColor"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <nav class="steps" aria-label="Steps">
+    <button data-step="1"><i>1</i>Your budget</button>
+    <button data-step="2"><i>2</i>Pick a machine</button>
+    <button data-step="3"><i>3</i>Change any part</button>
+    <button data-step="4"><i>4</i>Get it built</button>
+  </nav>
+
+  <section id="step1" aria-labelledby="s1h">
+    <div class="budgetHero">
+      <div>
+        <span class="eyebrow">Step 1 of 4</span>
+        <h1 id="s1h">What is your budget?</h1>
+        <p class="muted" style="max-width:56ch">Type any amount — ₹20,000 or ₹5 crore. We show you complete machines at that budget and what each one is best used for.</p>
+        <label class="bigin" for="budgetIn"><span aria-hidden="true">₹</span><input id="budgetIn" inputmode="numeric" autocomplete="off" aria-describedby="budgetWords" placeholder="5,00,000"></label>
+        <div id="budgetWords" aria-live="polite"></div>
+        <div id="quick" aria-label="Quick budgets">
+          <button class="chip" data-v="30000">₹30,000</button><button class="chip" data-v="60000">₹60,000</button><button class="chip" data-v="100000">₹1 lakh</button><button class="chip" data-v="200000">₹2 lakh</button><button class="chip" data-v="500000">₹5 lakh</button><button class="chip" data-v="1000000">₹10 lakh</button><button class="chip" data-v="2500000">₹25 lakh</button><button class="chip" data-v="10000000">₹1 crore</button>
+        </div>
+        <label class="chk"><input type="checkbox" id="usedChk"> Include used / refurbished parts (cheaper, marked as used)</label>
+        <button class="btn primary big" id="goMachines">Show me machines <span aria-hidden="true">→</span></button>
+      </div>
+      <div class="panel how3">
+        <h3>How it works</h3>
+        <ol>
+          <li><b>Your budget.</b> Any amount.</li>
+          <li><b>Pick a machine.</b> Gaming, video, AI, CAD, server or office — each card says what it is best used for.</li>
+          <li><b>Go inside and change anything.</b> Every part shows its full range, from the cheapest to the most expensive, with shop links in India and abroad. Want a bigger processor or more memory? Pick it. Do not want a part? Leave it out.</li>
+          <li><b>Get it built.</b> Your machine can end up above your budget or below it. We build what you choose.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="step2" aria-labelledby="mTitle" hidden>
+    <span class="eyebrow">Step 2 of 4</span>
+    <h2 id="mTitle">Machines</h2>
+    <p class="muted" style="max-width:70ch">Each one is complete, and every part is checked against the others. Pick the one closest to your work. Inside, you can change any part.</p>
+    <div id="mcards"></div>
+  </section>
+
+  <section id="step3" aria-labelledby="s3h" hidden>
+    <span class="eyebrow">Step 3 of 4</span>
+    <h2 id="s3h">Inside your machine</h2>
+    <p class="muted" style="max-width:76ch">Press <b>Change</b> on any part to see every option, from <b>₹0 (leave it out)</b> to the most expensive in the world. If a new part needs another part to change, we change it and tell you why. The total at the bottom updates as you go.</p>
+    <div id="inside"></div>
+  </section>
+
+  <section id="step4" aria-labelledby="s4h" hidden>
+    <span class="eyebrow">Step 4 of 4</span>
+    <h2 id="s4h" style="margin-bottom:14px">Get it built</h2>
+    <div class="builtGrid" id="built"></div>
+  </section>
+</main>
+
+<div id="bar" hidden>
+  <div class="wrap barin">
+    <div class="barcol"><small>Your machine</small><div id="barTotal">—</div><div id="barWords"></div></div>
+    <div class="meter"><div class="track" aria-hidden="true"><div id="barFill"></div></div><span id="barDiff"></span></div>
+    <div class="barcol" id="barBudgetCol"><small>Your budget</small><div id="barBudget">—</div></div>
+    <button class="btn primary" id="barNext">Get this built <span aria-hidden="true">→</span></button>
+  </div>
+</div>
+
+<div id="picker" hidden>
+  <div class="pk" role="dialog" aria-modal="true" aria-labelledby="pkTitle">
+    <div class="pkhead">
+      <div class="pktop"><div><h3 id="pkTitle">Choose</h3><div id="pkRange"></div></div><button class="btn sm" id="pkClose">✕ Close</button></div>
+      <div class="pkrow">
+        <input id="pkText" type="search" placeholder="Search a name, e.g. 9950X, 4090, 64 GB" aria-label="Search">
+        <select id="pkSort" aria-label="Sort"><option value="asc">Price: low to high</option><option value="desc">Price: high to low</option></select>
+        <div class="seg" id="pkMode" role="group" aria-label="Which options"><button data-mode="all" class="on">Everything</button><button data-mode="fits">Fits as it is</button></div>
+        <span class="tiny muted" id="pkCount"></span>
+      </div>
+      <div class="chips" id="pkBands" aria-label="Price range"></div>
+      <div class="chips" id="pkBrands" aria-label="Maker"></div>
+    </div>
+    <div id="pkList"></div>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<footer class="foot">
+  <div class="wrap">
+    <div>&copy; 2026 Aditya Enterprises, Pune, India. Prices are working numbers: each shows its label. We confirm every price before we build.</div>
+    <div><a href="../../">Home</a><a href="../">AVNI Computers</a><a href="../configure/">Advanced planner</a></div>
+  </div>
+</footer>
+
+<script src="parts.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
