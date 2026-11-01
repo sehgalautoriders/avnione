@@ -22,7 +22,7 @@ const SYS_GPU = g => g.sys;
 /* "Not included" is a real choice for every part, at ₹0. If the customer leaves a part out, we do not add it back
    and we do not tell him it is necessary (owner's rule, 01-11-2026). */
 const NONE = { id: 'none', n: 'Not included — leave this part out', b: '—', none: 1, inr: 0 };
-const withNone = list => list.some(x => x.id === 'none') ? list.map(x => x.id === 'none' ? Object.assign(x, { none: 1, n: 'Not included — leave this part out' }) : x) : [NONE].concat(list);                         // B200 / MI300X: sold only inside an 8-GPU server
+const withNone = list => list.some(x => x.id === 'none') ? list.map(x => x.id === 'none' ? Object.assign(x, { none: 1, n: 'Not included — leave this part out', note: undefined }) : x) : [NONE].concat(list);                         // B200 / MI300X: sold only inside an 8-GPU server
 const CATS = [
   { k: 'cpu', t: 'Processor', why: 'The brain. Decides how fast everything runs.', list: withNone(CPU.filter(c => c.p !== 'SYSTEM')) },
   { k: 'board', t: 'Motherboard', why: 'Joins every part. Decides which processor, memory and how many cards fit.', list: withNone(BOARD) },
@@ -219,6 +219,20 @@ function bestFor(s, prof) {
   const BOOST = { gaming: ['game'], ai: ['ai'], creator: ['cpu'], cad: ['cad'], server: ['srv', 'cpu'], office: ['cpu'] }[prof] || [];
   out.forEach(x => { if (BOOST.includes(x.g)) x.w += 10; });
   return out.sort((a, b) => b.w - a.w).slice(0, 4).map(x => x.t);
+}
+
+/* Warnings only (owner, 01-11-2026: "Just a warning would be ok"). A part left out stays out; we say what that means. */
+function warnings(s) {
+  const W = {}, c = get('cpu', s.cpu), b = get('board', s.board), g = get('gpu', s.gpu);
+  if (c.none) W.cpu = 'Without a processor the machine will not start.';
+  if (b.none) W.board = 'Without a motherboard the parts cannot be joined — the machine will not start.';
+  if (get('ram', s.ram).none) W.ram = 'Without memory the machine will not start.';
+  if (get('psu', s.psu).none) W.psu = 'Without a power supply the machine gets no power and will not start.';
+  if (get('cooler', s.cooler).none && !c.none) W.cooler = 'Without a cooler the processor overheats and shuts down within seconds.' + (c.box ? ' This processor comes with a cooler in the box — choose "Cooler included with the processor" to use it.' : '');
+  if (get('ssd', s.ssd).none) W.ssd = 'Without storage the machine powers on but has nowhere to install Windows or keep files.';
+  if (g.id === 'none' && !c.none && !c.ig && !b.bmc) W.gpu = 'This processor has no built-in graphics — without a graphics card no picture will show on the screen.';
+  if (get('case', s.case).none) W.case = 'Without a cabinet the parts sit open on a table: it works, but with no protection and poor airflow.';
+  return W;
 }
 
 /* ------------------------------------------------------------------ suggested machines (step 2) */
@@ -473,7 +487,7 @@ function drawMachines() {
 }
 
 function drawInside() {
-  const s = S.sel, t = total(s);
+  const s = S.sel, t = total(s), WN = warnings(s);
   const rows = t.L.map(l => {
     const c = CAT[l.k], it = l.it;
     const bd = get('board', s.board);
@@ -482,9 +496,10 @@ function drawInside() {
       : (l.k === 'cpu' && (it.ms || 1) > 1) ? stepper('cpuN', s.cpuN, Math.min(8, it.ms || 1))
       : (l.q > 1 ? '<span class="qfix">× ' + l.q + '</span>' : '');
     const hl = S.lastCh.some(x => x.k === l.k || x.k === l.k + 'N') ? ' changed' : '';
-    return '<div class="prow' + hl + (it.none ? ' left' : '') + '" id="row-' + l.k + '">' +
+    const wn = WN[l.k] ? '<div class="pwarn" role="note">⚠ ' + esc(WN[l.k]) + '</div>' : '';
+    return '<div class="prow' + hl + (it.none ? ' left' : '') + (WN[l.k] ? ' warned' : '') + '" id="row-' + l.k + '">' +
       '<div class="pcat"><b>' + esc(c.t) + '</b><span>' + esc(c.why) + '</span></div>' +
-      '<div class="pmain"><div class="pname">' + esc(it.n) + '</div><div class="pspec">' + esc(spec(l.k, it)) + '</div>' + (it.note ? '<div class="pnote">' + esc(it.note) + '</div>' : '') + shopLinks(it) + '</div>' +
+      '<div class="pmain"><div class="pname">' + esc(it.n) + '</div><div class="pspec">' + esc(spec(l.k, it)) + '</div>' + (it.note ? '<div class="pnote">' + esc(it.note) + '</div>' : '') + wn + shopLinks(it) + '</div>' +
       '<div class="pqty">' + qty + '</div>' +
       '<div class="pprice">' + priceHTML(l.p, l.q, it) + (l.q > 1 && l.p.v != null ? '<span class="tiny muted">' + inr(l.p.v) + ' each</span>' : '') + '</div>' +
       '<div class="pact"><button class="btn" data-change="' + l.k + '">Change <span aria-hidden="true">▸</span></button></div>' +
@@ -501,7 +516,8 @@ function drawInside() {
   const bf = bestFor(s), need = powerNeed(s);
   $('inside').innerHTML = chHTML +
     '<div class="insideGrid"><div class="parts">' + rows + '</div>' +
-    '<aside class="side"><div class="panel"><h3>This machine is best used for</h3><ul class="bf">' + bf.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>' +
+    '<aside class="side">' + (Object.keys(WN).length ? '<div class="panel warnbox"><h3>⚠ Please note</h3><ul>' + Object.values(WN).map(w => '<li>' + esc(w) + '</li>').join('') + '</ul><p class="tiny muted">Your choice — we build it as you say.</p></div>' : '') +
+    '<div class="panel"><h3>This machine is best used for</h3><ul class="bf">' + bf.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>' +
     '<p class="tiny muted">Changes as you change parts. Draws about ' + need + ' W at full load.</p></div>' +
     '<div class="panel"><h3>About the prices</h3><ul class="legend">' + ['est', 'seen', 'fx', 'quote'].map(k => '<li><span class="pl ' + k + '">' + PLABEL[k] + '</span> ' + esc(PTIP[k]) + '</li>').join('') + '</ul></div></aside></div>';
   if ($('undoBtn')) $('undoBtn').onclick = undo;
@@ -599,6 +615,7 @@ function drawPicker() {
     const it = x.it, isCur = it.id === cur;
     const p = price(it);
     const comp = isCur ? '<span class="fit cur">In your machine now</span>'
+      : (it.none && warnings(x.r.s)[k]) ? '<span class="fit chg">⚠ ' + esc(warnings(x.r.s)[k]) + '</span>'
       : x.swapped ? '<span class="fit chg">Does not fit the rest of this machine — we would fit ' + esc(get(k, x.r.s[k]).n) + ' instead</span>'
       : x.fits ? '<span class="fit ok">Fits as it is</span>'
       : '<span class="fit chg">We will also change: ' + esc([...new Set(x.r.ch.map(c => label(c.k)))].join(', ')) + '</span>';
@@ -617,6 +634,7 @@ function listText() {
   return 'AVNI Computers - my machine (' + new Date().toLocaleDateString('en-GB').replace(/\//g, '-') + ')\n' +
     L.map(l => '- ' + CAT[l.k].t + ': ' + (l.q > 1 ? l.q + ' x ' : '') + l.it.n + ' - ' + (l.p.v == null ? 'on quotation' : inr(l.p.v * l.q) + ' (' + PLABEL[l.p.k].toLowerCase() + ')')).join('\n') +
     (t.L.some(l => l.it.none) ? '\nLeft out at my choice: ' + t.L.filter(l => l.it.none).map(l => CAT[l.k].t).join(', ') : '') + '\nTotal: ' + inr(t.v) + (t.quote ? ' + ' + t.quote + ' part(s) on quotation' : '') + '\nMy budget: ' + inr(S.budget) +
+    (Object.keys(warnings(S.sel)).length ? '\nPlease note: ' + Object.values(warnings(S.sel)).join(' ') : '') +
     '\nBest used for: ' + bestFor(S.sel).join('; ') + '\nLink: ' + location.href;
 }
 function drawBuilt() {
@@ -628,6 +646,7 @@ function drawBuilt() {
     '<table class="sheetT"><thead><tr><th>Part</th><th>What we will fit</th><th class="r">Qty</th><th class="r">Price</th></tr></thead><tbody>' +
     L.map(l => '<tr><td>' + esc(CAT[l.k].t) + '</td><td>' + esc(l.it.n) + '</td><td class="r">' + l.q + '</td><td class="r">' + (l.p.v == null ? 'On quotation' : inr(l.p.v * l.q)) + '<br><span class="pl ' + l.p.k + '">' + PLABEL[l.p.k] + '</span></td></tr>').join('') +
     (left.length ? '<tr class="left"><td colspan="4">Left out at your choice: ' + esc(left.join(', ')) + '</td></tr>' : '') + '</tbody><tfoot><tr><td colspan="3">Total</td><td class="r">' + inr(t.v) + '</td></tr></tfoot></table>' +
+    (Object.keys(warnings(S.sel)).length ? '<div class="note warn" style="margin-top:14px"><b>⚠ Please note</b><ul>' + Object.values(warnings(S.sel)).map(w => '<li>' + esc(w) + '</li>').join('') + '</ul></div>' : '') +
     '<h3 style="margin-top:18px">Best used for</h3><ul class="bf">' + bestFor(S.sel).map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>' +
     '<div class="panel how"><h3>What happens next</h3><ol><li><b>Send us this list.</b> Copy it or share it with the buttons below.</li><li><b>We check every price</b> with Indian sellers and makers, and give you one firm quotation with GST.</li><li><b>We build and test</b> the machine — every part, at full load — before it reaches you.</li></ol>' +
     '<div class="btnrow"><button class="btn primary" id="shareBtn">Share this list</button><button class="btn" id="copyBtn">Copy the list</button><button class="btn" id="printBtn">Print or save as PDF</button><button class="btn" data-goto="3">← Change a part</button></div>' +
